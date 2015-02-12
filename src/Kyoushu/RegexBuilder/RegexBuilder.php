@@ -231,6 +231,7 @@ class RegexBuilder {
         }
         if($this->matchStringEnd) $regex .= '$';
         $regex .= $this->delimimiter;
+        $regex .= 'ms'; // Set internal options
         return $regex;
     }
 

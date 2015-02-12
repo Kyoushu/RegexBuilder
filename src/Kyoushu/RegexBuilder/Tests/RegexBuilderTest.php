@@ -9,22 +9,22 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
     public function testStartEnd()
     {
         $regex = RegexBuilder::create()->start()->getRegex();
-        $this->assertEquals('/^/', $regex);
+        $this->assertEquals('/^/ms', $regex);
 
         $regex = RegexBuilder::create()->end()->getRegex();
-        $this->assertEquals('/$/', $regex);
+        $this->assertEquals('/$/ms', $regex);
 
         $regex = RegexBuilder::create()->entireString()->getRegex();
-        $this->assertEquals('/^$/', $regex);
+        $this->assertEquals('/^$/ms', $regex);
     }
 
     public function testDelimiter()
     {
         $regex = RegexBuilder::create()->string('/')->getRegex();
-        $this->assertEquals('/(?:\\/)/', $regex);
+        $this->assertEquals('/(?:\\/)/ms', $regex);
 
         $regex = RegexBuilder::create('#')->string('/')->getRegex();
-        $this->assertEquals('#(?:/)#', $regex);
+        $this->assertEquals('#(?:/)#ms', $regex);
     }
 
     public function testPattern()
@@ -44,7 +44,7 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
     public function testCapture()
     {
         $regex = RegexBuilder::create()->string('foo')->captureAs('bar')->getRegex();
-        $this->assertEquals('/(?<bar>(?:foo))/', $regex);
+        $this->assertEquals('/(?<bar>(?:foo))/ms', $regex);
 
         if(!preg_match($regex, 'foobar', $match)){
             $this->fail('Regex did not match test string');
