@@ -30,7 +30,6 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals('foo)foo)', $match['bar']);
 
         $regex = RegexBuilder::create()
-            ->start()
             ->letter()->repeated()->captureAs('office')
             ->string('_')
             ->number()->repeated(3)->captureAs('id')
