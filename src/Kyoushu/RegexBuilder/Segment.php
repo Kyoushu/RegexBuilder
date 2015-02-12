@@ -147,6 +147,7 @@ class Segment {
      */
     public function setSubstringName($substringName)
     {
+        $this->setSubstring(true);
         $this->substringName = $substringName;
         return $this;
     }
