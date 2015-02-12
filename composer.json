@@ -1,0 +1,20 @@
+{
+    "name": "kyoushu/regex-builder",
+    "description": "A library for building simple regex strings procedurally",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Willans",
+            "email": "kyoushu@gmail.com"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "~4.5"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "src/"
+        }
+    }
+}
