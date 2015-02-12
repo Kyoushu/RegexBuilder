@@ -136,6 +136,14 @@ class RegexBuilder {
         return $this;
     }
 
+    public function alphanumeric()
+    {
+        $this->addSegment(
+            Segment::create()->setPattern('[a-zA-Z0-9]')
+        );
+        return $this;
+    }
+
     /**
      * @param null|string $name
      * @return $this
@@ -144,6 +152,19 @@ class RegexBuilder {
     {
         $this->lastSegment->setSubstring(true);
         if($name !== null) $this->lastSegment->setSubstringName($name);
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return $this
+     */
+    public function matchCaptured($name)
+    {
+        $this->addSegment(
+            Segment::create()
+                ->setPattern(sprintf('(?P=%s)', $name))
+        );
         return $this;
     }
 

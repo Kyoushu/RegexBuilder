@@ -77,4 +77,40 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals('/(?:.)/', $regex);
     }
 
+    public function testBackreference()
+    {
+        $regex = RegexBuilder::create()
+            ->start()
+            ->letter()->repeated()->captureAs('bar')
+            ->string('_')
+            ->matchCaptured('bar')
+            ->end()
+            ->getRegex();
+
+        if(!preg_match($regex, 'foo_foo')){
+            $this->fail('Regex did not match test string');
+        }
+
+        if(preg_match($regex, 'foo_bar')){
+            $this->fail('Backreference match did not work');
+        }
+
+    }
+
+    public function testComplex()
+    {
+
+        $regex = RegexBuilder::create()
+            ->start()
+            ->letter()->repeated()->captureAs('firstWord')
+            ->string('_')
+            ->matchCaptured('firstWord')
+            ->string('_')
+            ->alphanumeric()->repeated()
+            ->getRegex();
+
+        $this->assertRegExp($regex, 'bar_bar_1E2Ghs34');
+
+    }
+
 }
