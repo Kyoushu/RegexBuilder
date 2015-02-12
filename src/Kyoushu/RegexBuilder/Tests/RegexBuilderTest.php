@@ -30,13 +30,15 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
     public function testPattern()
     {
         $regex = RegexBuilder::create()->pattern('[a-zA-Z]')->getRegex();
-        $this->assertEquals('/(?:[a-zA-Z])/', $regex);
+        $this->assertRegExp($regex, 'g');
+        $this->assertNotRegExp($regex, '1');
     }
 
     public function testString()
     {
         $regex = RegexBuilder::create()->string('(foo)bar')->getRegex();
-        $this->assertEquals('/(?:\\(foo\\)bar)/', $regex);
+        $this->assertRegExp($regex, '(foo)bar');
+        $this->assertNotRegExp($regex, 'foobar');
     }
 
     public function testCapture()
@@ -50,31 +52,41 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
 
         $this->assertArrayHasKey('bar', $match);
         $this->assertEquals('foo' ,$match['bar']);
-
     }
 
     public function testOptional()
     {
         $regex = RegexBuilder::create()->string('foo')->optional()->getRegex();
-        $this->assertEquals('/(?:foo)?/', $regex);
+
+        $this->assertRegExp($regex, 'foobar');
+        $this->assertRegExp($regex, 'bar');
     }
 
     public function testLetter()
     {
         $regex = RegexBuilder::create()->letter()->getRegex();
-        $this->assertEquals('/(?:[a-zA-Z])/', $regex);
+
+        $this->assertRegExp($regex, 'Hello');
+        $this->assertNotRegExp($regex, '_');
+        $this->assertNotRegExp($regex, '123');
+
     }
 
     public function testNumber()
     {
         $regex = RegexBuilder::create()->number()->getRegex();
-        $this->assertEquals('/(?:[0-9])/', $regex);
+        $this->assertRegExp($regex, '1');
+        $this->assertNotRegExp($regex, 'a');
     }
 
     public function testAnything()
     {
         $regex = RegexBuilder::create()->anything()->getRegex();
-        $this->assertEquals('/(?:.)/', $regex);
+        $this->assertRegExp($regex, '4');
+        $this->assertRegExp($regex, 'g');
+        $this->assertRegExp($regex, ' ');
+        $this->assertRegExp($regex, '@');
+
     }
 
     public function testBackreference()
@@ -102,14 +114,34 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
 
         $regex = RegexBuilder::create()
             ->start()
+            ->string('!')
             ->letter()->repeated()->captureAs('firstWord')
+            ->string('_')
+            ->number()->repeated()->captureAs('id')
             ->string('_')
             ->matchCaptured('firstWord')
             ->string('_')
             ->alphanumeric()->repeated()
+            ->anything()
+            ->pattern('[GATC]')->repeated(1,7)->captureAs('dna')
+            ->string('!')
+            ->end()
             ->getRegex();
 
-        $this->assertRegExp($regex, 'bar_bar_1E2Ghs34');
+        $string = '!bar_1092834_bar_1E2Ghs34/GATTACA!';
+
+        $this->assertRegExp($regex, $string);
+
+        preg_match($regex, $string, $match);
+
+        $this->assertArrayHasKey('firstWord', $match);
+        $this->assertEquals('bar', $match['firstWord']);
+
+        $this->assertArrayHasKey('id', $match);
+        $this->assertEquals('1092834', $match['id']);
+
+        $this->assertArrayHasKey('dna', $match);
+        $this->assertEquals('GATTACA', $match['dna']);
 
     }
 
