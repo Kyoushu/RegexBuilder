@@ -1,5 +1,7 @@
 # Kyoushu\RegexBuilder
 
+[![Build Status](https://travis-ci.org/Kyoushu/RegexBuilder.svg?branch=master)](https://travis-ci.org/Kyoushu/RegexBuilder)
+
 A library for building simple regex strings procedurally
 
 ## Example
