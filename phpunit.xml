@@ -13,4 +13,14 @@
         </testsuite>
     </testsuites>
 
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>./src/Kyoushu/RegexBuilder/Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
 </phpunit>
