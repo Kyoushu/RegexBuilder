@@ -19,79 +19,65 @@ class SegmentTest extends \PHPUnit_Framework_TestCase{
 
     public function testString()
     {
-        $segment = Segment::create()->setString('foo)bar');
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo)bar');
         $this->assertEquals('(?:foo\\)bar)', $segment->__toString());
     }
 
     public function testPattern()
     {
-        $segment = Segment::create()->setPattern('[a-zA-Z0-9]');
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setPattern('[a-zA-Z0-9]');
         $this->assertEquals('(?:[a-zA-Z0-9])', $segment->__toString());
     }
 
     public function testOptional()
     {
-        $segment = Segment::create()->setString('foobar')->setOptional(true);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foobar')->setOptional(true);
         $this->assertEquals('(?:foobar)?', $segment->__toString());
 
-        $segment = Segment::create()->setString('foobar')->setSubstring(true)->setOptional(true);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foobar')->setSubstring(true)->setOptional(true);
         $this->assertEquals('((?:foobar))?', $segment->__toString());
     }
 
     public function testSubstring()
     {
-        $segment = Segment::create()->setString('foobar')->setSubstring(true);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foobar')->setSubstring(true);
         $this->assertEquals('((?:foobar))', $segment->__toString());
     }
 
     public function testSubstringName()
     {
-        $segment = Segment::create()->setString('foo')->setSubstringName('bar');
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setSubstringName('bar');
         $this->assertEquals('(?<bar>(?:foo))', $segment->__toString());
     }
 
     public function testRepeated()
     {
-        $segment = Segment::create()->setString('foo')->setRepeated(true);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeated(true);
+
         $this->assertEquals('(?:foo)+', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeated(1,2);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeated(1,2);
         $this->assertEquals('(?:foo){1,2}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeated(null,2);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeated(null,2);
         $this->assertEquals('(?:foo){,2}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeated(1,null);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeated(1,null);
         $this->assertEquals('(?:foo){1,}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeated(2,2);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeated(2,2);
         $this->assertEquals('(?:foo){2}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeatedMin(1);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeatedMin(1);
         $this->assertEquals('(?:foo){1,}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeatedMax(2);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeatedMax(2);
         $this->assertEquals('(?:foo){,2}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeatedMin(1)->setRepeatedMax(2);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeatedMin(1)->setRepeatedMax(2);
         $this->assertEquals('(?:foo){1,2}', $segment->__toString());
 
-        $segment = Segment::create()->setString('foo')->setRepeatedMin(1)->setRepeatedMax(1);
-        $segment->setBuilder($this->builder);
+        $segment = Segment::create($this->builder)->setString('foo')->setRepeatedMin(1)->setRepeatedMax(1);
         $this->assertEquals('(?:foo){1}', $segment->__toString());
     }
 

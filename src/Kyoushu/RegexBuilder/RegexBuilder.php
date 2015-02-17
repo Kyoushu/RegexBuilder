@@ -119,7 +119,7 @@ class RegexBuilder {
     public function pattern($pattern)
     {
         $this->addSegment(
-            Segment::create()->setPattern($pattern)
+            Segment::create($this)->setPattern($pattern)
         );
         return $this;
     }
@@ -131,7 +131,7 @@ class RegexBuilder {
     public function string($string)
     {
         $this->addSegment(
-            Segment::create()->setString($string)
+            Segment::create($this)->setString($string)
         );
         return $this;
     }
@@ -139,7 +139,7 @@ class RegexBuilder {
     public function alphanumeric()
     {
         $this->addSegment(
-            Segment::create()->setPattern('[a-zA-Z0-9]')
+            Segment::create($this)->setPattern('[a-zA-Z0-9]')
         );
         return $this;
     }
@@ -162,7 +162,7 @@ class RegexBuilder {
     public function matchCaptured($name)
     {
         $this->addSegment(
-            Segment::create()
+            Segment::create($this)
                 ->setPattern(sprintf('(?P=%s)', $name))
         );
         return $this;
@@ -189,7 +189,7 @@ class RegexBuilder {
     public function letter()
     {
         $this->addSegment(
-            Segment::create()->setPattern('[a-zA-Z]')
+            Segment::create($this)->setPattern('[a-zA-Z]')
         );
         return $this;
     }
@@ -197,7 +197,7 @@ class RegexBuilder {
     public function number()
     {
         $this->addSegment(
-            Segment::create()->setPattern('[0-9]')
+            Segment::create($this)->setPattern('[0-9]')
         );
         return $this;
     }
@@ -205,7 +205,7 @@ class RegexBuilder {
     public function anything()
     {
         $this->addSegment(
-            Segment::create()->setPattern('.')
+            Segment::create($this)->setPattern('.')
         );
         return $this;
     }
@@ -226,7 +226,6 @@ class RegexBuilder {
         $regex = $this->delimimiter;
         if($this->matchStringStart) $regex .= '^';
         foreach($this->segments as $segment){
-            $segment->setBuilder($this);
             $regex .= $segment->__toString();
         }
         if($this->matchStringEnd) $regex .= '$';

@@ -113,6 +113,7 @@ class RegexBuilderTest extends \PHPUnit_Framework_TestCase{
     {
 
         $regex = RegexBuilder::create()
+            ->setDelimimiter('#')
             ->start()
             ->string('!')
             ->letter()->repeated()->captureAs('firstWord')

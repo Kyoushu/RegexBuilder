@@ -45,11 +45,20 @@ class Segment {
     protected $optional;
 
     /**
+     * @param RegexBuilder $builder
      * @return Segment
      */
-    static function create()
+    static function create(RegexBuilder $builder)
     {
-        return new self();
+        return new self($builder);
+    }
+
+    /**
+     * @param RegexBuilder $builder
+     */
+    public function __construct(RegexBuilder $builder)
+    {
+        $this->builder = $builder;
     }
 
     /**
@@ -102,18 +111,6 @@ class Segment {
     {
         return $this->builder;
     }
-
-    /**
-     * @param RegexBuilder $builder
-     * @return $this
-     */
-    public function setBuilder($builder)
-    {
-        $this->builder = $builder;
-        return $this;
-    }
-
-
 
     /**
      * @return boolean
